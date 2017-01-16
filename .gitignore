@@ -3,3 +3,6 @@ env/
 
 # intellij
 .idea/
+
+# local dev
+.vagrant/
