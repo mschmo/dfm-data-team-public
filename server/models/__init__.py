@@ -1,1 +1,1 @@
-from .campaign_stats import CampaignStats
+from .campaign_facts import CampaignFacts
