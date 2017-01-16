@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect
 from flask.ext.migrate import Migrate
 
 from .db import db
@@ -14,9 +14,16 @@ db.init_app(app)
 Migrate(app, db)
 
 
-@app.route("/")
-def output():
-    return "Output results here."
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        return redirect('results')
+    return render_template('index.html')
+
+
+@app.route('/results')
+def results():
+    return 'Sup'
 
 
 if __name__ == "__main__":

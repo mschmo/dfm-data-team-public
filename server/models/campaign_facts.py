@@ -46,3 +46,8 @@ class CampaignFacts(ActiveModel, db.Model):
     @property
     def conversion_rate(self):
         return self.conversions / self.interactions * 100
+
+    @classmethod
+    def load_from_gzip_csv(cls):
+        pass
+
