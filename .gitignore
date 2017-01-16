@@ -6,3 +6,6 @@ env/
 
 # local dev
 .vagrant/
+
+# configuration files
+server/config_local.py
