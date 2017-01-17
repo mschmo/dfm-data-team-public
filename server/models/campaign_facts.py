@@ -1,6 +1,7 @@
 import csv
 import gzip
 import json
+from collections import OrderedDict
 from datetime import datetime
 
 from ..db import db, ActiveModel, full_commit
@@ -62,38 +63,41 @@ class CampaignFacts(ActiveModel, db.Model):
         return self.conversions / self.interactions * 100
 
     @classmethod
-    def load_from_gzip_csv(cls, gzip_file, with_header=True):
-        with gzip.open(gzip_file) as f:
-            reader = csv.reader(f)
+    def load_from_gzip_csv(cls, gzip_file, output_gzip_file, with_header=True):
+        with gzip.open(gzip_file) as in_f:
+            reader = csv.reader(in_f)
             # If header is included in file it should be skipped
             if with_header:
                 reader.next()
-            for row in reader:
-                facts_row = {
-                    'date': row[0],
-                    'customer_id': row[1],
-                    'campaign_id': row[2],
-                    'campaign': row[3],
-                    'campaign_state': row[4],
-                    'campaign_serving_status': row[5],
-                    'start_date': row[7],
-                    'end_date': row[8],
-                    'budget': row[9],
-                    'budget_id': row[10],
-                    'budget_explicit_share': False if row[11] == 'false' else True,
-                    'label_ids': cls.json_or_null(row[12]),
-                    'labels': cls.json_or_null(row[13]),
-                    'clicks': int(row[6]),
-                    'invalid_clicks': int(row[14]),
-                    'conversions': int(float(row[15])),
-                    'cost': int(row[18]),
-                    'impressions': int(row[19]),
-                    'search_lost_is': float(row[20].replace('%', '')),
-                    'avg_position': float(row[21]),
-                    'interactions': int(row[23])
-                }
-                fact = cls(**facts_row)
-                fact.save(commit=False)
+            with gzip.open(output_gzip_file, 'wt') as out_f:
+                writer = csv.writer(out_f)
+                for row in reader:
+                    facts_row = OrderedDict([
+                        ('date', row[0]),
+                        ('customer_id', row[1]),
+                        ('campaign_id', row[2]),
+                        ('campaign', row[3]),
+                        ('campaign_state', row[4]),
+                        ('campaign_serving_status', row[5]),
+                        ('start_date', row[7]),
+                        ('end_date', row[8]),
+                        ('budget', row[9]),
+                        ('budget_id', row[10]),
+                        ('budget_explicit_share', False if row[11] == 'false' else True),
+                        ('label_ids', cls.json_or_null(row[12])),
+                        ('labels', cls.json_or_null(row[13])),
+                        ('clicks', int(row[6])),
+                        ('invalid_clicks', int(row[14])),
+                        ('conversions', int(float(row[15]))),
+                        ('cost', int(row[18])),
+                        ('impressions', int(row[19])),
+                        ('search_lost_is', float(row[20].replace('%', ''))),
+                        ('avg_position', float(row[21])),
+                        ('interactions', int(row[23]))
+                    ])
+                    fact = cls(**facts_row)
+                    fact.save(commit=False)
+                    writer.writerow(facts_row.values())
         try:
             full_commit()
             return True

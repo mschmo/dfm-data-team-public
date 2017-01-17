@@ -9,3 +9,6 @@ env/
 
 # configuration files
 server/config_local.py
+
+# misc
+output_example.csv.gz

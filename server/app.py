@@ -23,7 +23,8 @@ def index():
         dir_path = os.path.dirname(os.path.realpath(__file__))
         parent_path = os.path.abspath(os.path.join(dir_path, os.pardir))
         example_file = os.path.join(parent_path,  'example_report.csv.gz')
-        CampaignFacts.load_from_gzip_csv(example_file)
+        out_file = os.path.join(parent_path, 'output_example.csv.gz')
+        CampaignFacts.load_from_gzip_csv(example_file, out_file)
         return redirect('results')
     return render_template('index.html')
 
