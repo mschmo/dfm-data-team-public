@@ -24,6 +24,9 @@ class CampaignFacts(ActiveModel, db.Model):
     budget_id = db.Column(db.Integer, nullable=False)
     budget_explicit_share = db.Column(db.Boolean, nullable=False, default=False)  # Seems False is most common
     # I'm assuming comma separated values for these, although the example only contains empty values
+    # IMPORTANT: "The json_typeof function's null return value should not be confused with a SQL NULL.
+    # While calling json_typeof('null'::json) will return null, calling json_typeof(NULL::json) will return a SQL NULL."
+    # https://www.postgresql.org/docs/9.4/static/functions-json.html#FUNCTIONS-JSON-PROCESSING-TABLE
     label_ids = db.Column(db.JSON)  # JSON array of ids e.g. [1,2,3]
     labels = db.Column(db.JSON)  # JSON array of label names e.g. ['Label One', 'Label Two']
 
