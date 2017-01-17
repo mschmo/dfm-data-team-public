@@ -1,0 +1,60 @@
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Customer ID</th>
+      <th>Campaign ID</th>
+      <th>Campaign</th>
+      <th>Campaign State</th>
+      <th>Campaign Serving Status</th>
+      <th>Clicks</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Budget</th>
+      <th>Budget ID</th>
+      <th>Budget Explicitly Shared</th>
+      <th>Label IDs</th>
+      <th>Labels</th>
+      <th>Invalid Clicks</th>
+      <th>Conversions</th>
+      <th>Conv. Rate</th>
+      <th>CTR</th>
+      <th>Cost</th>
+      <th>Impressions</th>
+      <th>Search Lost IS (rank)</th>
+      <th>Avg. position</th>
+      <th>Interaction Rate</th>
+      <th>Interactions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for row in results %}
+    <tr>
+      <td>{{ row.date }}</td>
+      <td>{{ row.customer_id }}</td>
+      <td>{{ row.campaign_id }}</td>
+      <td>{{ row.campaign }}</td>
+      <td>{{ row.campaign_state }}</td>
+      <td>{{ row.campaign_serving_status }}</td>
+      <td>{{ row.clicks }}</td>
+      <td>{{ row.start_date }}</td>
+      <td>{{ row.end_date }}</td>
+      <td>{{ row.budget }}</td>
+      <td>{{ row.budget_id }}</td>
+      <td>{{ row.budget_explicit_share }}</td>
+      <td>{{ row.label_ids }}</td>
+      <td>{{ row.labels }}</td>
+      <td>{{ row.invalid_clicks }}</td>
+      <td>{{ row.conversions }}</td>
+      <td>{{ '{:.2f}'.format(row.conversion_rate) }}%</td>
+      <td>{{ '{:.2f}'.format(row.ctr) }}%</td>
+      <td>{{ row.cost }}</td>
+      <td>{{ row.impressions }}</td>
+      <td>{{ row.search_lost_is }}</td>
+      <td>{{ row.avg_position }}</td>
+      <td>{{ '{:.2f}'.format(row.interaction_rate) }}%</td>
+      <td>{{ row.interactions }}</td>
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>

@@ -52,15 +52,15 @@ class CampaignFacts(ActiveModel, db.Model):
 
     @property
     def ctr(self):
-        return self.clicks / self.impressions * 100
+        return float(self.clicks) / self.impressions * 100
 
     @property
     def interaction_rate(self):
-        return self.interactions / self.impressions * 100
+        return float(self.interactions) / self.impressions * 100
 
     @property
     def conversion_rate(self):
-        return self.conversions / self.interactions * 100
+        return float(self.conversions) / self.interactions * 100
 
     @classmethod
     def load_from_gzip_csv(cls, gzip_file, output_gzip_file, with_header=True):

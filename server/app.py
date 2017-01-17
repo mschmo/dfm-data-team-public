@@ -20,6 +20,7 @@ Migrate(app, db)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        # Get relevant paths for reading/writing gzipped CSVs
         dir_path = os.path.dirname(os.path.realpath(__file__))
         parent_path = os.path.abspath(os.path.join(dir_path, os.pardir))
         example_file = os.path.join(parent_path,  'example_report.csv.gz')
@@ -31,5 +32,8 @@ def index():
 
 @app.route('/results')
 def results():
-    return 'Sup'
+    # For a small data set all() is fine, but for a larger one
+    # we should use some form of pagination with LIMIT, OFFSET, etc
+    results = CampaignFacts.query.all()
+    return render_template('results.html', results=results)
 
